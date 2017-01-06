@@ -1,0 +1,279 @@
+#+TITLE: Introduction To Emacs
+#+OPTIONS: num:nil toc:nil timestamp:nil
+
+* Welcome
+  Everything I talk about including the starter code and slides will be on 
+  [[https://github.com/WolfeCub/emacs-workshop][github.com/WolfeCub/emacs-workshop]]. You can find the raw HTML of the slides at
+  [[https://wolfecub.github.io/emacs-workshop/][WolfeCub.github.io/emacs-workshop]] and the slideshow itself at 
+  [[https://wolfecub.github.io/emacs-workshop/slideshow][WolfeCub.github.io/emacs-workshop/slideshow]].
+  
+  You can also find a starter emacs config that has basic settings and commented out
+  configs for both evil and god mode if you choose to use them.
+
+* Key Bindings
+  There are tonnes of obscure emacs bindings that I won't go into.
+  This should hopefully be enough to get you started.
+** Common Bindngs
+   - Undo =C-_=
+   - Open File =C-x C-f=
+   - Save File =C-x C-s=
+   - Exit Emacs =C-x C-c=
+   - Exit Current Command =C-g=
+     
+** Motion Bindngs
+   |-------------+---------+----------+--------------+--------------|
+   | Amount      | Forward | Backward | Del Forward  | Del Backward |
+   |-------------+---------+----------+--------------+--------------|
+   | Characters  | ~C-f~   | ~C-b~    | ~C-d~        | ~DEL~        |
+   | Words       | ~M-f~   | ~M-b~    | ~M-d~        | ~M-DEL~      |
+   | Lines       | ~C-n~   | ~C-p~    | ~C-k~ to EOL | ~C-u 0 C-k~  |
+   | Sentences   | ~M-e~   | ~M-a~    | ~M-k~        | ~C-x DEL~    |
+   | Expressions | ~C-M-f~ | ~C-M-b~  | ~C-M-k~      | ~C-M-DEL~    |
+   | Paragraphs  | ~M-}~   | ~M-{~    | N/A          | N/A          |
+   | Line        | ~C-e~   | ~C-a~    | N/A          | N/A          |
+   | File        | ~M->~   | ~M-<~    | N/A          | N/A          |
+   
+*** Broader Motion Bindings
+    - =C-v= Page Down
+    - =M-v= Page Up
+      
+** Getting Around Emacs
+   | =M-x=     | Run Command                     |
+   | =C-u=     | Universal Argument              |
+   | =C-x b=   | Select Buffer                   |
+   | =C-x C-b= | List Buffers                    |
+   | =C-x k=   | Kill Buffer                     |
+   | =C-x 1=   | Fill Screen With Current Buffer |
+   | =C-x 2=   | Vertical Split                  |
+   | =C-x 3=   | Horizontal Split                |
+   | =C-x o=   | Other Window                    |
+      
+*** Cutting, Copying and Pasting
+    | =C-SPC= | Begin Mark Region            |
+    | =C-w=   | Cut                          |
+    | =M-w=   | Copy                         |
+    | =C-y=   | Paste (called yank in emacs) |
+
+** How to Get Help
+   - =C-h= Invokes The General Help Menu
+
+     =C-h i= - Info Mode (emacs and elisp manuals)
+
+     =C-h k= - Describe Key
+
+     =C-h m= - Describe Mode
+     
+     =C-h b= - Lists All [Current] Keybindings
+     
+     =C-h ?= - More Options
+
+** Evil Mode
+   - Emulation of all vim functionality inside of emacs
+   - Not perfect out of the box. Requires some tweaking.
+   - Better than vim in certain aspects
+   - It's worth setting up 
+** God Mode
+   If you aren't a vim user but the idea of pressing more than one key at a time seems unpleasant
+   then God Mode is for you. Here's an example:
+   #+BEGIN_SRC
+   Before: C-p C-k C-n M-^ ) C-j C-y M-r C-x z z M-2 M-g M-g C-x C-s
+   After:    p   k   n g ^ )   j   y g r     . .   2   g   g   x   s
+   #+END_SRC
+   This globaly removes all of the modifier keys required by emacs commands.
+   
+* Emacs Concepts
+  Before talking about how to customize emacs we should go over a few concepts
+  - Buffers
+  - Windows
+  - Frames
+  - Modes
+    
+** Buffers
+   - When you open a file emacs loads the contents into a buffer.
+   - A buffer and a file aren't the same thing.
+   - When you save a buffer the contents are written into the file it was opened from
+     if it wasn't opening from a file it will prompt you on where to save it.
+   - Buffers don't need to be tied to a file e.g. =*scratch*=
+     
+** Windows
+   - Windows are where buffers are displayed.
+   - Buffers and windows are independant.
+   - You can have buffers open that aren't being displayed in any windows.
+   - You can also have the same buffer open in multiple windows.
+
+** Frames
+   - Frames are what you typically think of as windows
+   - You can have multiple windows attached to the same emacs session
+   - Frames can be a GUI version of emacs or a terminal based version
+** Modes
+   - Two types of modes Major and Minor
+   - You can only have one major mode active at a time
+   - Major modes are typically related to the type of file you have open
+   - You can have as many minor modes active as you want
+     * Python Mode, C Mode, Org Mode, Mail Mode etc.
+   - Minor modes are typically global features you always want active
+     * Matching Paren Mode, Auto Indent Mode, Autocomplete Mode
+   - Modes can change pretty much anything about emacs when they're active
+
+* Customizing Emacs
+  One of the main reasons emacs is being used 40 years after it's creation is it's
+  extensibility. Emacs itself has 1.5 million lines of code the core of it is written
+  in C for speed which comprimises about 22% of the code base. The remainder or emacs
+  is written in elisp, a customized version of lisp made specifically for emacs.
+
+** Where Can You Customize
+   - Running =M-x customize= will give you an interactive mode for customizing many aspects
+     of emacs including font faces, keybindings, programming languages.
+   - While customize is quite convenient it's usually better to make the changes programatically.
+   - This can be done using an initialization file which is run every time emacs starts.
+   - The initialization file can be located in one of 3 places =~/.emacs=, =~/.emacs.el= or
+     =~/.emacs.d/init.el=.
+   - It doesn't matter which one you use just don't store it in multiple places.
+ 
+** Init File
+   - The init file is going to be where most of your customizations are kept.
+   - Most changes you make to emacs aren't persistent and need to be run each time
+     emacs starts.
+   - This is where the init file becomes very useful.
+
+   #+BEGIN_SRC elisp
+     (setq inhibit-splash-screen t
+           inhibit-startup-message t)
+     (tool-bar-mode -1)
+     (scroll-bar-mode -1)
+     (menu-bar-mode -1)
+     (show-paren-mode t)
+   #+END_SRC
+   
+   This code lives in my =init.el= and hides some of emacs's more annoying elements.
+
+** Rebinding Keys
+   Many of the default keybindings require some uncomfortable and long key chords 
+
+   e.g. =C-c r M-w= which saves a rectangle of text based on the current region
+
+   Emacs has options to locally and globally rebind keys.
+   
+   #+BEGIN_SRC elisp
+     (global-set-key (kbd "C-c c") 'comment-region)
+     (define-key 'minibuffer-local-map (kbd "C-l") 'minibuffer-complete)
+   #+END_SRC
+   
+   The first line globals binds the comment-region command to =C-c c=.
+   The second binds the minibuffer-complete command to =C-l= only when inside the minibuffer.
+   
+** Rebinding Keys cont. 
+   You don't have to bind existing commands to keys. You can write you're own.
+
+   #+BEGIN_SRC elisp
+     (defun wolfe/man ()
+       (if (executable-find "man")
+           (man (word-at-point))
+         (woman)))
+
+     (global-set-key (kbd "C-c m") 'wolfe/man)
+   #+END_SRC
+
+   This function looks up the man page for the word under you're cursor.
+   If you're on a system that doesn't have man installed it then calls woman which is a built in emacs
+   command that emulates man pages without requiring the system to have them.
+
+* Packages
+  Although you can write all of your own customizations this would start to get very time consuming.
+  This is where packages come in. A package is just some elisp code written by somebody that emacs
+  can load and use. Emacs has a built in support for downloading and using packages. 
+
+  If you are looking for an emacs feature that isn't supported by default chances are somebody has
+  written a package that does what you want.
+
+** Setting Up Package Support
+   This tells emacs where to look for packages and that it should load packages when it starts up.
+   #+BEGIN_SRC elisp
+     (require 'package)
+     (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                              ("marmalade" . "http://marmalade-repo.org/packages/")
+                              ("melpa" . "http://melpa.org/packages/")))
+     (setq package-enable-at-startup nil)
+     (package-initialize)
+   #+END_SRC
+
+** Use Package
+   Emacs package management can get a bit messy. You have to make sure that a package is installed
+   before you try to use it. If you try and customize a package before you load it you'll run into
+   issues. Luckily somebody wrote a package that takes care of all of this stuff. It's called =use-package=
+
+   #+BEGIN_SRC elisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+     (require 'use-package)
+   #+END_SRC
+
+   This chunk of code checks if =use-package= is installed and if it isn't it downloads and installs it for you.
+
+** Using Use Package
+   Here is the general structure of a use-package call
+
+   #+BEGIN_SRC elisp
+     (use-package name
+       :ensure t/f
+       :bind (("key" . command)) ;; binds command to key
+       :init
+       code here is run before the package is loaded
+       :config
+       code here is run after the package is loaded)
+   #+END_SRC
+
+   There are more options that just those but those are the most commonly used ones.
+
+** Noteable Packages
+   - General - keybinding framework
+   - Magit - clean interface to git from within emacs
+   - ido/smex - cleaner minibuffer completion
+   - Helm - alternative to ido/smex
+   - Powerline - nicer looking mode line
+   - Neotree - file tree browser
+   - linum/nlinum - line numbers
+   - Autocomplete/Company - autocompletion wth extendable  backends
+   - Org Mode - outlining mode (will discuss later)
+   - Themes - there are hundreds of themes out there that allow you to change the entire
+     appearance of emacs
+   - Language Packages - i.e. python, haskell, c++
+* Org Mode
+  "Org mode is for keeping notes, maintaining TODO lists, planning projects, 
+  and authoring documents with a fast and effective plain-text system."
+  
+  - This presentation was actually written in org mode
+  - Very useful for outlining projects and TODOs.
+  - Extremely detailed and well maintained.
+  - The PDF version of the manual is 299 pages long.
+    
+** So What Exactly is Org?
+   - It's a plaintext markup language similar to markdown or creole.
+   - It supports much more complex features including tables, calandaring and TODOs.
+   - The tables in org mode are fully functional spreadsheets and can be extended
+     with elisp.
+   - Org can be exported to a wide variety of formats including:
+     * HTML
+     * PDF (through LaTeX)
+     * iCal
+   - And many more formats are supported through 3rd party plugins.  
+     
+** Some Examples of Org mode
+   - *Bold*, /italic/, _underlined_, =verbatim= and +strike through+.
+   - Tables
+   - TODOs
+   - Calandar and Dating
+   - LaTeX and UTF-8 symbols like: \alpha, \beta, \sum, \infin
+
+     $x^2 + xy - y^2 = z$
+     
+   - [[https://www.google.com][Links]] and Images: 
+
+   [[file:https://www.emacswiki.org/pics/static/CarbonEmacsPackageIcon.png]]
+
+* A Few Cool Features
+  - Lisp evaluation
+  - Shell within emacs
+  - Emacs server and client
+  - Latex preview

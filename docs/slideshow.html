@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Introduction To Emacs</title>
+<meta name="author" content="(Josh Wolfe)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/css/theme/moon.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Introduction To Emacs</h1><h2 class="author">Josh Wolfe</h2>
+</section>
+
+<section>
+<section id="slide-orge35a0a3">
+<h2 id="orge35a0a3">Welcome</h2>
+<p>
+Everything I talk about including the starter code and slides will be on 
+<a href="https://github.com/WolfeCub/emacs-workshop">github.com/WolfeCub/emacs-workshop</a>. You can find the raw HTML of the slides at
+<a href="https://wolfecub.github.io/emacs-workshop/">WolfeCub.github.io/emacs-workshop</a> and the slideshow itself at 
+<a href="https://wolfecub.github.io/emacs-workshop/slideshow">WolfeCub.github.io/emacs-workshop/slideshow</a>.
+</p>
+
+<p>
+You can also find a starter emacs config that has basic settings and commented out
+configs for both evil and god mode if you choose to use them.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org8082b8c">
+<h2 id="org8082b8c">Key Bindings</h2>
+<p>
+There are tonnes of obscure emacs bindings that I won't go into.
+This should hopefully be enough to get you started.
+</p>
+</section>
+<section id="slide-orgf27dab6">
+<h3 id="orgf27dab6">Common Bindngs</h3>
+<ul>
+<li>Undo <code>C-_</code></li>
+<li>Open File <code>C-x C-f</code></li>
+<li>Save File <code>C-x C-s</code></li>
+<li>Exit Emacs <code>C-x C-c</code></li>
+<li>Exit Current Command <code>C-g</code></li>
+
+</ul>
+
+</section>
+<section id="slide-orga57243c">
+<h3 id="orga57243c">Motion Bindngs</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Amount</th>
+<th scope="col" class="org-left">Forward</th>
+<th scope="col" class="org-left">Backward</th>
+<th scope="col" class="org-left">Del Forward</th>
+<th scope="col" class="org-left">Del Backward</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Characters</td>
+<td class="org-left"><code>C-f</code></td>
+<td class="org-left"><code>C-b</code></td>
+<td class="org-left"><code>C-d</code></td>
+<td class="org-left"><code>DEL</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Words</td>
+<td class="org-left"><code>M-f</code></td>
+<td class="org-left"><code>M-b</code></td>
+<td class="org-left"><code>M-d</code></td>
+<td class="org-left"><code>M-DEL</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Lines</td>
+<td class="org-left"><code>C-n</code></td>
+<td class="org-left"><code>C-p</code></td>
+<td class="org-left"><code>C-k</code> to EOL</td>
+<td class="org-left"><code>C-u 0 C-k</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Sentences</td>
+<td class="org-left"><code>M-e</code></td>
+<td class="org-left"><code>M-a</code></td>
+<td class="org-left"><code>M-k</code></td>
+<td class="org-left"><code>C-x DEL</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Expressions</td>
+<td class="org-left"><code>C-M-f</code></td>
+<td class="org-left"><code>C-M-b</code></td>
+<td class="org-left"><code>C-M-k</code></td>
+<td class="org-left"><code>C-M-DEL</code></td>
+</tr>
+
+<tr>
+<td class="org-left">Paragraphs</td>
+<td class="org-left"><code>M-}</code></td>
+<td class="org-left"><code>M-{</code></td>
+<td class="org-left">N/A</td>
+<td class="org-left">N/A</td>
+</tr>
+
+<tr>
+<td class="org-left">Line</td>
+<td class="org-left"><code>C-e</code></td>
+<td class="org-left"><code>C-a</code></td>
+<td class="org-left">N/A</td>
+<td class="org-left">N/A</td>
+</tr>
+
+<tr>
+<td class="org-left">File</td>
+<td class="org-left"><code>M-&gt;</code></td>
+<td class="org-left"><code>M-&lt;</code></td>
+<td class="org-left">N/A</td>
+<td class="org-left">N/A</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org0c0c343">
+<h4 id="org0c0c343">Broader Motion Bindings</h4>
+<ul>
+<li><code>C-v</code> Page Down</li>
+<li><code>M-v</code> Page Up</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf33eb08">
+<h3 id="orgf33eb08">Getting Around Emacs</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>M-x</code></td>
+<td class="org-left">Run Command</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-u</code></td>
+<td class="org-left">Universal Argument</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x b</code></td>
+<td class="org-left">Select Buffer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x C-b</code></td>
+<td class="org-left">List Buffers</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x k</code></td>
+<td class="org-left">Kill Buffer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x 1</code></td>
+<td class="org-left">Fill Screen With Current Buffer</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x 2</code></td>
+<td class="org-left">Vertical Split</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x 3</code></td>
+<td class="org-left">Horizontal Split</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-x o</code></td>
+<td class="org-left">Other Window</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org0289995">
+<h4 id="org0289995">Cutting, Copying and Pasting</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>C-SPC</code></td>
+<td class="org-left">Begin Mark Region</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-w</code></td>
+<td class="org-left">Cut</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>M-w</code></td>
+<td class="org-left">Copy</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>C-y</code></td>
+<td class="org-left">Paste (called yank in emacs)</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org36235dc">
+<h3 id="org36235dc">How to Get Help</h3>
+<ul>
+<li><p>
+<code>C-h</code> Invokes The General Help Menu
+</p>
+
+<p>
+<code>C-h i</code> - Info Mode (emacs and elisp manuals)
+</p>
+
+<p>
+<code>C-h k</code> - Describe Key
+</p>
+
+<p>
+<code>C-h m</code> - Describe Mode
+</p>
+
+<p>
+<code>C-h b</code> - Lists All [Current] Keybindings
+</p>
+
+<p>
+<code>C-h ?</code> - More Options
+</p></li>
+
+</ul>
+
+</section>
+<section id="slide-org912d7cf">
+<h3 id="org912d7cf">Evil Mode</h3>
+<ul>
+<li>Emulation of all vim functionality inside of emacs</li>
+<li>Not perfect out of the box. Requires some tweaking.</li>
+<li>Better than vim in certain aspects</li>
+<li>It's worth setting up</li>
+
+</ul>
+</section>
+<section id="slide-org3713609">
+<h3 id="org3713609">God Mode</h3>
+<p>
+If you aren't a vim user but the idea of pressing more than one key at a time seems unpleasant
+then God Mode is for you. Here's an example:
+</p>
+<pre  class="example">
+Before: C-p C-k C-n M-^ ) C-j C-y M-r C-x z z M-2 M-g M-g C-x C-s
+After:    p   k   n g ^ )   j   y g r     . .   2   g   g   x   s
+</pre>
+<p>
+This globaly removes all of the modifier keys required by emacs commands.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org5decd29">
+<h2 id="org5decd29">Emacs Concepts</h2>
+<p>
+Before talking about how to customize emacs we should go over a few concepts
+</p>
+<ul>
+<li>Buffers</li>
+<li>Windows</li>
+<li>Frames</li>
+<li>Modes</li>
+
+</ul>
+
+</section>
+<section id="slide-org54d9f22">
+<h3 id="org54d9f22">Buffers</h3>
+<ul>
+<li>When you open a file emacs loads the contents into a buffer.</li>
+<li>A buffer and a file aren't the same thing.</li>
+<li>When you save a buffer the contents are written into the file it was opened from
+if it wasn't opening from a file it will prompt you on where to save it.</li>
+<li>Buffers don't need to be tied to a file e.g. <code>*scratch*</code></li>
+
+</ul>
+
+</section>
+<section id="slide-orgeba45f4">
+<h3 id="orgeba45f4">Windows</h3>
+<ul>
+<li>Windows are where buffers are displayed.</li>
+<li>Buffers and windows are independant.</li>
+<li>You can have buffers open that aren't being displayed in any windows.</li>
+<li>You can also have the same buffer open in multiple windows.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf9142fb">
+<h3 id="orgf9142fb">Frames</h3>
+<ul>
+<li>Frames are what you typically think of as windows</li>
+<li>You can have multiple windows attached to the same emacs session</li>
+<li>Frames can be a GUI version of emacs or a terminal based version</li>
+
+</ul>
+</section>
+<section id="slide-orgab43205">
+<h3 id="orgab43205">Modes</h3>
+<ul>
+<li>Two types of modes Major and Minor</li>
+<li>You can only have one major mode active at a time</li>
+<li>Major modes are typically related to the type of file you have open</li>
+<li>You can have as many minor modes active as you want
+<ul>
+<li>Python Mode, C Mode, Org Mode, Mail Mode etc.</li>
+
+</ul></li>
+<li>Minor modes are typically global features you always want active
+<ul>
+<li>Matching Paren Mode, Auto Indent Mode, Autocomplete Mode</li>
+
+</ul></li>
+<li>Modes can change pretty much anything about emacs when they're active</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org2bc3e77">
+<h2 id="org2bc3e77">Customizing Emacs</h2>
+<p>
+One of the main reasons emacs is being used 40 years after it's creation is it's
+extensibility. Emacs itself has 1.5 million lines of code the core of it is written
+in C for speed which comprimises about 22% of the code base. The remainder or emacs
+is written in elisp, a customized version of lisp made specifically for emacs.
+</p>
+
+</section>
+<section id="slide-orge977f27">
+<h3 id="orge977f27">Where Can You Customize</h3>
+<ul>
+<li>Running <code>M-x customize</code> will give you an interactive mode for customizing many aspects
+of emacs including font faces, keybindings, programming languages.</li>
+<li>While customize is quite convenient it's usually better to make the changes programatically.</li>
+<li>This can be done using an initialization file which is run every time emacs starts.</li>
+<li>The initialization file can be located in one of 3 places <code>~/.emacs</code>, <code>~/.emacs.el</code> or
+<code>~/.emacs.d/init.el</code>.</li>
+<li>It doesn't matter which one you use just don't store it in multiple places.</li>
+
+</ul>
+
+</section>
+<section id="slide-org1b954ee">
+<h3 id="org1b954ee">Init File</h3>
+<ul>
+<li>The init file is going to be where most of your customizations are kept.</li>
+<li>Most changes you make to emacs aren't persistent and need to be run each time
+emacs starts.</li>
+<li>This is where the init file becomes very useful.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-elisp">(<span style="color: #8197bf;">setq</span> inhibit-splash-screen t
+      inhibit-startup-message t)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
+(show-paren-mode t)
+</pre>
+</div>
+
+<p>
+This code lives in my <code>init.el</code> and hides some of emacs's more annoying elements.
+</p>
+
+</section>
+<section id="slide-orgdd9d1bb">
+<h3 id="orgdd9d1bb">Rebinding Keys</h3>
+<p>
+Many of the default keybindings require some uncomfortable and long key chords 
+</p>
+
+<p>
+e.g. <code>C-c r M-w</code> which saves a rectangle of text based on the current region
+</p>
+
+<p>
+Emacs has options to locally and globally rebind keys.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-elisp">(global-set-key (kbd <span style="color: #99ad6a;">"C-c c"</span>) 'comment-region)
+(define-key 'minibuffer-local-map (kbd <span style="color: #99ad6a;">"C-l"</span>) 'minibuffer-complete)
+</pre>
+</div>
+
+<p>
+The first line globals binds the comment-region command to <code>C-c c</code>.
+The second binds the minibuffer-complete command to <code>C-l</code> only when inside the minibuffer.
+</p>
+
+</section>
+<section id="slide-orgfec28ae">
+<h3 id="orgfec28ae">Rebinding Keys cont.</h3>
+<p>
+You don't have to bind existing commands to keys. You can write you're own.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-elisp">(<span style="color: #8197bf;">defun</span> <span style="color: #fad07a;">wolfe/man</span> ()
+  (<span style="color: #8197bf;">if</span> (executable-find <span style="color: #99ad6a;">"man"</span>)
+      (man (word-at-point))
+    (woman)))
+
+(global-set-key (kbd <span style="color: #99ad6a;">"C-c m"</span>) 'wolfe/man)
+</pre>
+</div>
+
+<p>
+This function looks up the man page for the word under you're cursor.
+If you're on a system that doesn't have man installed it then calls woman which is a built in emacs
+command that emulates man pages without requiring the system to have them.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org569bd22">
+<h2 id="org569bd22">Packages</h2>
+<p>
+Although you can write all of your own customizations this would start to get very time consuming.
+This is where packages come in. A package is just some elisp code written by somebody that emacs
+can load and use. Emacs has a built in support for downloading and using packages. 
+</p>
+
+<p>
+If you are looking for an emacs feature that isn't supported by default chances are somebody has
+written a package that does what you want.
+</p>
+
+</section>
+<section id="slide-org6670356">
+<h3 id="org6670356">Setting Up Package Support</h3>
+<p>
+This tells emacs where to look for packages and that it should load packages when it starts up.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-elisp">(<span style="color: #8197bf;">require</span> '<span style="color: #447799;">package</span>)
+(<span style="color: #8197bf;">setq</span> package-archives '((<span style="color: #99ad6a;">"gnu"</span> . <span style="color: #99ad6a;">"http://elpa.gnu.org/packages/"</span>)
+                         (<span style="color: #99ad6a;">"marmalade"</span> . <span style="color: #99ad6a;">"http://marmalade-repo.org/packages/"</span>)
+                         (<span style="color: #99ad6a;">"melpa"</span> . <span style="color: #99ad6a;">"http://melpa.org/packages/"</span>)))
+(<span style="color: #8197bf;">setq</span> package-enable-at-startup nil)
+(package-initialize)
+</pre>
+</div>
+
+</section>
+<section id="slide-orge43c079">
+<h3 id="orge43c079">Use Package</h3>
+<p>
+Emacs package management can get a bit messy. You have to make sure that a package is installed
+before you try to use it. If you try and customize a package before you load it you'll run into
+issues. Luckily somebody wrote a package that takes care of all of this stuff. It's called <code>use-package</code>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-elisp">(<span style="color: #8197bf;">unless</span> (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(<span style="color: #8197bf;">require</span> '<span style="color: #447799;">use-package</span>)
+</pre>
+</div>
+
+<p>
+This chunk of code checks if <code>use-package</code> is installed and if it isn't it downloads and installs it for you.
+</p>
+
+</section>
+<section id="slide-orge0aa339">
+<h3 id="orge0aa339">Using Use Package</h3>
+<p>
+Here is the general structure of a use-package call
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-elisp">(<span style="color: #8197bf;">use-package</span> <span style="color: #447799;">name</span>
+  <span style="color: #8fbfdc;">:ensure</span> t/f
+  <span style="color: #8fbfdc;">:bind</span> ((<span style="color: #99ad6a;">"key"</span> . command)) <span style="color: #888888; font-style: italic;">;; </span><span style="color: #888888; font-style: italic;">binds command to key</span>
+  <span style="color: #8fbfdc;">:init</span>
+  code here is run before the package is loaded
+  <span style="color: #8fbfdc;">:config</span>
+  code here is run after the package is loaded)
+</pre>
+</div>
+
+<p>
+There are more options that just those but those are the most commonly used ones.
+</p>
+
+</section>
+<section id="slide-org30c17bb">
+<h3 id="org30c17bb">Noteable Packages</h3>
+<ul>
+<li>General - keybinding framework</li>
+<li>Magit - clean interface to git from within emacs</li>
+<li>ido/smex - cleaner minibuffer completion</li>
+<li>Helm - alternative to ido/smex</li>
+<li>Powerline - nicer looking mode line</li>
+<li>Neotree - file tree browser</li>
+<li>linum/nlinum - line numbers</li>
+<li>Autocomplete/Company - autocompletion wth extendable  backends</li>
+<li>Org Mode - outlining mode (will discuss later)</li>
+<li>Themes - there are hundreds of themes out there that allow you to change the entire
+appearance of emacs</li>
+<li>Language Packages - i.e. python, haskell, c++</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org3d885b2">
+<h2 id="org3d885b2">Org Mode</h2>
+<p>
+"Org mode is for keeping notes, maintaining TODO lists, planning projects, 
+and authoring documents with a fast and effective plain-text system."
+</p>
+
+<ul>
+<li>This presentation was actually written in org mode</li>
+<li>Very useful for outlining projects and TODOs.</li>
+<li>Extremely detailed and well maintained.</li>
+<li>The PDF version of the manual is 299 pages long.</li>
+
+</ul>
+
+</section>
+<section id="slide-org9065c4d">
+<h3 id="org9065c4d">So What Exactly is Org?</h3>
+<ul>
+<li>It's a plaintext markup language similar to markdown or creole.</li>
+<li>It supports much more complex features including tables, calandaring and TODOs.</li>
+<li>The tables in org mode are fully functional spreadsheets and can be extended
+with elisp.</li>
+<li>Org can be exported to a wide variety of formats including:
+<ul>
+<li>HTML</li>
+<li>PDF (through LaTeX)</li>
+<li>iCal</li>
+
+</ul></li>
+<li>And many more formats are supported through 3rd party plugins.</li>
+
+</ul>
+
+</section>
+<section id="slide-org19e5429">
+<h3 id="org19e5429">Some Examples of Org mode</h3>
+<ul>
+<li><b>Bold</b>, <i>italic</i>, <span class="underline">underlined</span>, <code>verbatim</code> and <del>strike through</del>.</li>
+<li>Tables</li>
+<li>TODOs</li>
+<li>Calandar and Dating</li>
+<li><p>
+LaTeX and UTF-8 symbols like: &alpha;, &beta;, &sum;, &infin;
+</p>
+
+<p>
+\(x^2 + xy - y^2 = z\)
+</p></li>
+
+<li><a href="https://www.google.com">Links</a> and Images:</li>
+
+</ul>
+
+
+<div class="figure">
+<p><img src="https://www.emacswiki.org/pics/static/CarbonEmacsPackageIcon.png" alt="CarbonEmacsPackageIcon.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgaa8f121">
+<h2 id="orgaa8f121">A Few Cool Features</h2>
+<ul>
+<li>Lisp evaluation</li>
+<li>Shell within emacs</li>
+<li>Emacs server and client</li>
+<li>Latex preview</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/lib/js/head.min.js"></script>
+<script src="./reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: './reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: './reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: './reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: './reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
