@@ -1,4 +1,3 @@
-;;(set-face-attribute 'default nil :height 250)
 ;;
 ;; P A C K A G E   M A N A G E M E N T
 ;;
