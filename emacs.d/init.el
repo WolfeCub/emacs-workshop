@@ -1,4 +1,3 @@
-;;(set-face-attribute 'default nil :height 250)
 ;;
 ;; P A C K A G E   M A N A G E M E N T
 ;;
@@ -28,6 +27,7 @@
 (setq vc-follow-symlinks t) ; Always follow symlinks
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
+(setq org-pretty-entities t) ; Make latex symbols auto display
 
 ;;
 ;; P A C K A G E S
@@ -79,8 +79,8 @@
 ;; BEGIN
 ;;(use-package god-mode
 ;;  :config
-;;  (GLOBAL-SET-KEY (KBD "<ESCAPE>") 'GOD-MODE-ALL)
-;;  (SETQ GOD-EXEMPT-MAJOR-MODES NIL)
+;;  (global-set-key (kbd "<escape>") 'god-mode-all)
+;;  (setq god-exempt-major-modes nil)
 ;;  (setq god-exempt-predicates nil))
 ;; END
 
