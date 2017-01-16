@@ -27,7 +27,9 @@
 (setq vc-follow-symlinks t) ; Always follow symlinks
 (setq custom-file "~/.emacs.d/custom.el") ; Set custom file
 (load custom-file 'noerror) ; Load custom file
-(setq org-pretty-entities t) ; Make latex symbols auto display
+(setq org-pretty-entities t ; Make latex symbols auto display
+      org-src-fontify-natively t ; Highlight src code block in org mode
+      org-src-tab-acts-natively t) ; Tabs work properly on src blocks
 
 ;;
 ;; P A C K A G E S
