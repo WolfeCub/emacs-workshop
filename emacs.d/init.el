@@ -29,7 +29,26 @@
 (load custom-file 'noerror) ; Load custom file
 (setq org-pretty-entities t ; Make latex symbols auto display
       org-src-fontify-natively t ; Highlight src code block in org mode
-      org-src-tab-acts-natively t) ; Tabs work properly on src blocks
+      org-src-tab-acts-natively t ; Tabs work properly on src blocks
+      save-interprogram-paste-before-kill t ; Move last kill to sys clipboard on exit
+      visible-bell t ; Visually indicate bell
+      load-prefer-newer t ; Load newer source over compiled
+      ediff-window-setup-function 'ediff-setup-windows-plain) ; Cleaner diff
+(setq-default indent-tabs-mode nil) ; Use spaces instead of tabs
+(show-paren-mode 1) ; Show matching parens
+
+;; Don't show any of the graphical bars
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(horizontal-scroll-bar-mode -1)
+
+(require 'uniquify) ; Better unique buffer names
+(setq uniquify-buffer-name-style 'forward)
+
+(require 'saveplace) ; Remember file placement
+(setq-default save-place t)
+(setq save-place-file (concat user-emacs-directory "places"))
 
 ;;
 ;; P A C K A G E S
@@ -38,12 +57,9 @@
   :config
   (load-theme 'leuven t))
 
-;; Saner defaults for emacs
-(use-package better-defaults)
-
 ;; Better completion at point
 (use-package ivy
-  :bind
+  :bind ("C-x k" . kill-buffer)
   (:map ivy-minibuffer-map
         ("RET" . ivy-alt-done)
         ("<tab>" . ivy-next-line)
