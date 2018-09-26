@@ -41,10 +41,19 @@
 ;; Saner defaults for emacs
 (use-package better-defaults)
 
-;; Better M-x
-(use-package smex
-  :demand
-  :bind ("M-x" . smex))  
+;; Better completion at point
+(use-package ivy
+  :bind
+  (:map ivy-minibuffer-map
+        ("RET" . ivy-alt-done)
+        ("<tab>" . ivy-next-line)
+        ("<backtab>" . ivy-previous-line))
+  :init
+  (use-package smex)
+  (use-package counsel)
+  :config
+  (ivy-mode 1)
+  (counsel-mode 1))
 
 ;; Better looking org headers
 (use-package org-bullets
